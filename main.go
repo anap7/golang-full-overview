@@ -1,19 +1,11 @@
 package main
 
 import (
-	"net/http"
+	"github.com/anap7/golang-overviews/src/http"
+	"github.com/anap7/golang-overviews/src/model"
 )
 
 func main() {
-	http.HandleFunc("/products", ProductHandle)
-	http.ListenAndServe(":9095", nil)
-}
-
-func ProductHandle(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Ola jovem"))
-}
-
-/*func main() {
 	p1 := model.NewProduct()
 	p1.Name = "Carrinho"
 
@@ -23,4 +15,8 @@ func ProductHandle(w http.ResponseWriter, r *http.Request) {
 	products := model.Products{}
 	products.Add(*p1)
 	products.Add(*p2)
-}*/
+
+	server := http.NewWebServer()
+	server.Products = &products
+	server.Serve()
+}

@@ -4,8 +4,8 @@ import uuid "github.com/satori/go.uuid"
 
 
 type Product struct {
-	ID string
-	Name string
+	ID string `json:"id"`
+	Name string `json:"name"`
 }
 
 type Products struct {

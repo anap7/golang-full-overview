@@ -2,7 +2,6 @@ package http
 
 import (
 	"net/http"
-
 	"github.com/anap7/golang-overviews/src/model"
 	"github.com/labstack/echo/v4"
 )
@@ -18,9 +17,20 @@ func NewWebServer() *WebServer {
 func (w WebServer) Serve() {
 	e := echo.New()
 	e.GET("/product", w.getAll)
-	e.Logger.Fatal(e.Start("8585"))
+	e.POST("/product", w.createProduct)
+	e.Logger.Fatal(e.Start(":8585"))
 }
 
 func (w WebServer) getAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, w.Products)
+}
+
+func (w WebServer) createProduct(c echo.Context) error {
+	product := model.NewProduct()
+	//O Bind funciona como o unmarshall para ler o body e associar a struct 
+	if err := c.Bind(product); err != nil {
+		return err
+	}
+	w.Products.Add(*product)
+	return c.JSON(http.StatusCreated, product)
 }
